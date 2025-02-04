@@ -7,7 +7,7 @@ language:
   - en
   - zh-tw
 timezone: ''
-url: https://wendyhsinyun.github.io/hexo-myblog
+url: https://wendyhsinyun.github.io/hy-blog
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
 pretty_urls:
@@ -63,6 +63,6 @@ ignore: null
 theme: icarus
 deploy:
   type: git
-  repo: https://github.com/WendyHsinYun/hexo-myblog.git
+  repo: https://github.com/WendyHsinYun/hy-blog.git
   branch: main
   message: ''
