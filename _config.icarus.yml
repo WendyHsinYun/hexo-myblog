@@ -252,7 +252,7 @@ widgets:
         location: Taipei, Taiwan
         # URL or path to the avatar image
         # avatar: https://octodex.github.com/images/hula_loop_octodex03.gif
-        avatar: /img/my-avatar.png
+        avatar: /img/avatar.png
         # Whether show the rounded avatar image
         avatar_rounded: true
         # Email address for the Gravatar
