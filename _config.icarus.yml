@@ -174,7 +174,7 @@ comment:
     repoId: R_kgDONwJxUA                # Required
     category: Announcements             # Optional, default: Announcements
     categoryId: DIC_kwDONwJxUM4CmrHr    # Required
-    mapping: pathname                   # Optional, default: pathname
+    mapping: title                   # Optional, default: pathname
     strict: false                       # Optional
     reactionsEnabled: true              # Optional
     emitMetadata: false                 # Optional
