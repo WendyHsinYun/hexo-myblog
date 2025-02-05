@@ -3,11 +3,11 @@ version: 5.1.0
 # Icarus theme variant, can be "default" or "cyberpunk"
 variant: default
 # Path or URL to the website's logo
-logo: /img/logo.jpg
+# logo: /img/logo.jpg
 # Page metadata configurations
 head:
-    # URL or path to the website's icon
-    favicon: /images/logo.jpg
+    # URL or path to the website's icon 
+    favicon: /img/logo.svg 
     # Web application manifests configuration
     # https://developer.mozilla.org/en-US/docs/Web/Manifest
     manifest:
@@ -111,10 +111,10 @@ navbar:
         Tags: /tags
         About: /about
     # Links to be shown on the right of the navigation bar
-    links:
-        Download on GitHub:
-            icon: fab fa-github
-            url: https://github.com/ppoffice/hexo-theme-icarus
+    # links:
+    #     Download on GitHub:
+    #         icon: fab fa-github
+    #         url: https://github.com/ppoffice/hexo-theme-icarus
 # Page footer configurations
 footer:
     # Copyright text
