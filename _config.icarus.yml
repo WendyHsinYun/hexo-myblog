@@ -251,11 +251,12 @@ widgets:
         # Author's current location
         location: Taipei, Taiwan
         # URL or path to the avatar image
-        avatar: /img/logo.jpg
+        # avatar: https://octodex.github.com/images/hula_loop_octodex03.gif
+        avatar: /img/my-avatar.png
         # Whether show the rounded avatar image
-        avatar_rounded: false
+        avatar_rounded: true
         # Email address for the Gravatar
-        gravatar: 
+        # gravatar: 
         # URL or path for the follow button
         # follow_link: https://github.com/WendyHsinYun
         # Links to be shown on the bottom of the profile widget
