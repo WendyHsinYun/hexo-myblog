@@ -1,7 +1,10 @@
 # HY's BLOG
 
 ## Description
-This is HY's personal note website built with Hexo.
+This is a personal note website built with Hexo, using the [Icarus theme](https://ppoffice.github.io/hexo-theme-icarus/).
+
+📌 Visit my blog: [wendyhsinyun.github.io/hy-blog](https://wendyhsinyun.github.io/hy-blog/)
+
 
 ## Theme
 
