@@ -3,8 +3,14 @@
 ## Description
 This is a personal note website built with Hexo.
 
+## Theme
+
+This site uses the [Icarus theme](https://ppoffice.github.io/hexo-theme-icarus/).
+
+For theme documentation, visit: [Icarus Theme Documentation](https://ppoffice.github.io/hexo-theme-icarus/)
+
 ### Clone the Repository
-使用以下指令將遠端儲存庫複製到本地：
+
 ```sh
 git clone <https://github.com/WendyHsinYun/hy-blog>
 ```
