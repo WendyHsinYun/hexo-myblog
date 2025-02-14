@@ -1,7 +1,7 @@
-# MY BLOG
+# HY's BLOG
 
 ## Description
-This is a personal note website built with Hexo.
+This is HY's personal note website built with Hexo.
 
 ## Theme
 
