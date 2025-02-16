@@ -9,6 +9,7 @@ language:
 timezone: ''
 # url: https://wendyhsinyun.github.io/hy-blog
 url: http://www.hychang.me
+root: /
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
 pretty_urls:
