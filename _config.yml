@@ -8,7 +8,7 @@ language:
   - zh-tw
 timezone: ''
 # url: https://wendyhsinyun.github.io/hy-blog
-url: https://hychang.me
+url: http://www.hychang.me
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
 pretty_urls:
