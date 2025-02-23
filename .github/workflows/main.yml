@@ -40,19 +40,16 @@ jobs:
           hexo generate
 
       - name: Deploy
-        env:
-          GITHUB_USERNAME: ${{ secrets.GITHUBUSERNAME }}
-          GITHUB_EMAIL: ${{ secrets.GITHUBEMAIL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
-          # 設定 Git
           git config --global user.name "$GITHUB_USERNAME"
           git config --global user.email "$GITHUB_EMAIL"
-          git config --global init.defaultBranch main
           
           cd ./public
           git init
           git add .
-          git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
-          
-          git push --force --quiet "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/hy-blog.git" main
+          git commit -m "Deploy: $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By GitHub Actions"
+
+          # 使用 GitHub Token 來推送
+          git remote add origin "https://github.com/$GITHUB_USERNAME/hy-blog.git"
+          git branch -M gh-pages-prod
+          git push --force origin gh-pages-prod

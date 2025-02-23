@@ -66,5 +66,5 @@ theme: icarus
 deploy:
   type: git
   repo: https://github.com/WendyHsinYun/hy-blog.git
-  branch: main
+  branch: gh-pages-prod
   message: ''
