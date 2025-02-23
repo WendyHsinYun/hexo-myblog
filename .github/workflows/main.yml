@@ -33,6 +33,9 @@ jobs:
         run: |
           hexo clean
           hexo generate
+          # 檢查生成的文件
+          ls -la public/
+          cat public/index.html | head -n 10
       - name: Deploy
         env:
           GITHUB_USERNAME: ${{ secrets.GITHUBUSERNAME }}
@@ -44,10 +47,16 @@ jobs:
           git config --global user.email "$GITHUB_EMAIL"
           git config --global init.defaultBranch main
           
-          cd ./public
+          cd public
+          # 確保目錄非空
+          if [ -z "$(ls -A)" ]; then
+            echo "Error: Public directory is empty!"
+            exit 1
+          fi
+          
           git init
-          git add .
+          git add -A
           git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
           
-          # 推送到 gh-pages-prod 分支，使用正確的倉庫名稱
+          # 推送到 gh-pages-prod 分支
           git push --force --quiet "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/hy-blog.git" main:gh-pages-prod
