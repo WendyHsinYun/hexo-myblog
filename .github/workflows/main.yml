@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout Branch
+      uses: actions/checkout@v2
+      with:
+        ref: main
+
+    - name: Install Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: "20.x"
+
+    - name: Install Hexo CLI
+      run: |
+        export TZ='Asia/Taipei'
+        npm install hexo-cli -g
+
+    - name: Cache Dependencies
+      uses: actions/cache@v1
+      id: cache
+      with:
+        path: node_modules
+        key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        npm install
+
+    - name: Hexo Static Files Generation
+      run: |
+        hexo clean
+        hexo generate
+
+    - name: Deploy
+      run: |
+        cd ./public
+        [ -d .git ] || git init
+        git config --global user.name '${{ secrets.GITHUBUSERNAME }}'
+        git config --global user.email '${{ secrets.GITHUBEMAIL }}'
+        git add .
+        git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
+        git push --force --quiet "https://${{ secrets.GITHUBUSERNAME }}:${{ secrets.GITHUBTOKEN }}@github.com/${{ secrets.GITHUBUSERNAME }}/${{ secrets.GITHUBUSERNAME }}.github.io.git" main:gh-pages-prod
