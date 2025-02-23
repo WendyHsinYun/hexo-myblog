@@ -1,3 +1,66 @@
+# name: Deploy
+# on:
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Branch
+#         uses: actions/checkout@v4
+#         with:
+#           ref: main
+#       - name: Install Node
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20.x"
+#       - name: Install Hexo CLI
+#         run: |
+#           export TZ='Asia/Taipei'
+#           npm install hexo-cli -g
+#       - name: Cache Dependencies
+#         uses: actions/cache@v3
+#         id: cache
+#         with:
+#           path: node_modules
+#           key: ${{ runner.OS }}-${{ hashFiles('**/package-lock.json') }}
+#       - name: Install Dependencies
+#         if: steps.cache.outputs.cache-hit != 'true'
+#         run: |
+#           npm install
+#       - name: Hexo Static Files Generation
+#         run: |
+#           hexo clean
+#           hexo generate
+#           # 檢查生成的文件
+#           ls -la public/
+#           cat public/index.html | head -n 10
+#       - name: Deploy
+#         env:
+#           GITHUB_USERNAME: ${{ secrets.GITHUBUSERNAME }}
+#           GITHUB_EMAIL: ${{ secrets.GITHUBEMAIL }}
+#           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+#         run: |
+#           # 設定 Git
+#           git config --global user.name "$GITHUB_USERNAME"
+#           git config --global user.email "$GITHUB_EMAIL"
+#           git config --global init.defaultBranch main
+          
+#           cd public
+#           # 確保目錄非空
+#           if [ -z "$(ls -A)" ]; then
+#             echo "Error: Public directory is empty!"
+#             exit 1
+#           fi
+          
+#           git init
+#           git add -A
+#           git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
+          
+#           # 推送到 gh-pages-prod 分支
+#           git push --force --quiet "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/hy-blog.git" main:gh-pages-prod
+
 name: Deploy
 on:
   push:
@@ -11,52 +74,77 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
+
       - name: Install Node
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
+
       - name: Install Hexo CLI
         run: |
           export TZ='Asia/Taipei'
           npm install hexo-cli -g
+
       - name: Cache Dependencies
         uses: actions/cache@v3
         id: cache
         with:
           path: node_modules
           key: ${{ runner.OS }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           npm install
+
+      - name: Debug Environment
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "\nDirectory contents:"
+          ls -la
+          echo "\nChecking _config.yml:"
+          cat _config.yml
+
       - name: Hexo Static Files Generation
         run: |
+          echo "Cleaning previous builds..."
           hexo clean
+          
+          echo "Generating static files..."
           hexo generate
-          # 檢查生成的文件
+          
+          echo "\nChecking public directory contents:"
           ls -la public/
-          cat public/index.html | head -n 10
+          
+          echo "\nChecking index.html content:"
+          cat public/index.html | head -n 20
+
       - name: Deploy
         env:
           GITHUB_USERNAME: ${{ secrets.GITHUBUSERNAME }}
           GITHUB_EMAIL: ${{ secrets.GITHUBEMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
-          # 設定 Git
           git config --global user.name "$GITHUB_USERNAME"
           git config --global user.email "$GITHUB_EMAIL"
           git config --global init.defaultBranch main
           
           cd public
-          # 確保目錄非空
-          if [ -z "$(ls -A)" ]; then
-            echo "Error: Public directory is empty!"
-            exit 1
-          fi
+          echo "Checking public directory before git operations:"
+          ls -la
           
           git init
+          
+          echo "Adding files to git..."
           git add -A
+          
+          echo "Checking git status:"
+          git status
+          
           git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
           
-          # 推送到 gh-pages-prod 分支
+          echo "Pushing to gh-pages-prod branch..."
           git push --force --quiet "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/hy-blog.git" main:gh-pages-prod
+          
+          echo "Deploy completed"
