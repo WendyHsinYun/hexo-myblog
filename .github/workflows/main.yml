@@ -9,51 +9,50 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    
-    - name: Checkout Branch
-      uses: actions/checkout@v2
-      with:
-        ref: main
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
 
-    - name: Install Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: "20.x"
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.x"
 
-    - name: Install Hexo CLI
-      run: |
-        export TZ='Asia/Taipei'
-        npm install hexo-cli -g
+      - name: Install Hexo CLI
+        run: |
+          export TZ='Asia/Taipei'
+          npm install hexo-cli -g
 
-    - name: Cache Dependencies
-      uses: actions/cache@v1
-      id: cache
-      with:
-        path: node_modules
-        key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-${{ hashFiles('**/package-lock.json') }}
 
-    - name: Install Dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: |
-        npm install
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm install
 
-    - name: Hexo Static Files Generation
-      run: |
-        hexo clean
-        hexo generate
+      - name: Hexo Static Files Generation
+        run: |
+          hexo clean
+          hexo generate
 
-    - name: Deploy
-      run: |
-      cd ./public
-      # 如果 .git 資料夾不存在，則初始化 git 倉庫
-      [ -d .git ] || git init
-      # 設定使用者姓名和電子郵件
-      git config --global user.name '${{ secrets.GITHUBUSERNAME }}'
-      git config --global user.email '${{ secrets.GITHUBEMAIL }}'
+      - name: Deploy
+        run: |
+          cd ./public
+          # 如果 .git 資料夾不存在，則初始化 git 倉庫
+          [ -d .git ] || git init
+          # 設定使用者姓名和電子郵件
+          git config --global user.name '${{ secrets.GITHUBUSERNAME }}'
+          git config --global user.email '${{ secrets.GITHUBEMAIL }}'
 
-      # 加入檔案，提交更改
-      git add .
-      git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
+          # 加入檔案，提交更改
+          git add .
+          git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
 
-      # 推送到 gh-pages-prod 分支
-      git push --force --quiet "https://${{ secrets.GITHUBUSERNAME }}:${{ secrets.GITHUBTOKEN }}@github.com/${{ secrets.GITHUBUSERNAME }}/${{ secrets.GITHUBUSERNAME }}.github.io.git" main:gh-pages-prod
+          # 推送到 gh-pages-prod 分支
+          git push --force --quiet "https://${{ secrets.GITHUBUSERNAME }}:${{ secrets.GITHUBTOKEN }}@github.com/${{ secrets.GITHUBUSERNAME }}/${{ secrets.GITHUBUSERNAME }}.github.io.git" main:gh-pages-prod
