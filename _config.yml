@@ -63,14 +63,8 @@ include: null
 exclude: null
 ignore: null
 theme: icarus
-# deploy:
-#   type: git
-#   repo: https://github.com/WendyHsinYun/hy-blog.git
-#   branch: gh-pages-prod
-#   message: ''
 deploy:
   type: git
-  repo: https://${GITHUBTOKEN}@github.com/WendyHsinYun/hy-blog.git
-  branch: gh-pages-prod
-  message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
-
+  repo: https://github.com/WendyHsinYun/hy-blog.git
+  branch: main
+  message: ''

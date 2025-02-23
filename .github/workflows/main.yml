@@ -33,42 +33,20 @@ jobs:
         run: |
           hexo clean
           hexo generate
-
-      # - name: Deploy with Hexo
-      #   env:
-      #     GIT_USER: ${{ secrets.GITHUBUSERNAME }}
-      #     GIT_EMAIL: ${{ secrets.GITHUBEMAIL }}
-      #     GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
-      #   run: |
-      #     git config --global user.name "$GIT_USER"
-      #     git config --global user.email "$GIT_EMAIL"
-      #     npx hexo deploy
-
-      - name: Deploy with Hexo
+      - name: Deploy
         env:
+          GITHUB_USERNAME: ${{ secrets.GITHUBUSERNAME }}
+          GITHUB_EMAIL: ${{ secrets.GITHUBEMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
-          git config --global user.name "$GITHUBUSERNAME"
-          git config --global user.email "$GITHUBEMAIL"
-          git config --global credential.helper store
-          echo "https://${GITHUBTOKEN}@github.com" > ~/.git-credentials
-          npx hexo deploy
-
-      # - name: Deploy
-      #   env:
-      #     GITHUB_USERNAME: ${{ secrets.GITHUBUSERNAME }}
-      #     GITHUB_EMAIL: ${{ secrets.GITHUBEMAIL }}
-      #     GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
-      #   run: |
-      #     # 設定 Git
-      #     git config --global user.name "$GITHUB_USERNAME"
-      #     git config --global user.email "$GITHUB_EMAIL"
-      #     git config --global init.defaultBranch main
+          # 設定 Git
+          git config --global user.name "$GITHUB_USERNAME"
+          git config --global user.email "$GITHUB_EMAIL"
+          git config --global init.defaultBranch main
           
-      #     cd ./public
-      #     git init
-      #     git add .
-      #     git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
+          cd ./public
+          git init
+          git add .
+          git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
           
-      #     # 推送到 gh-pages-prod 分支，使用正確的倉庫名稱
-      #     git push --force --quiet "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/hy-blog.git" main:gh-pages-prod
+          git push --force --quiet "https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/hy-blog.git" main
