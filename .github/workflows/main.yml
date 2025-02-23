@@ -33,14 +33,25 @@ jobs:
         run: |
           hexo clean
           hexo generate
+
+      # - name: Deploy with Hexo
+      #   env:
+      #     GIT_USER: ${{ secrets.GITHUBUSERNAME }}
+      #     GIT_EMAIL: ${{ secrets.GITHUBEMAIL }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+      #   run: |
+      #     git config --global user.name "$GIT_USER"
+      #     git config --global user.email "$GIT_EMAIL"
+      #     npx hexo deploy
+
       - name: Deploy with Hexo
         env:
-          GIT_USER: ${{ secrets.GITHUBUSERNAME }}
-          GIT_EMAIL: ${{ secrets.GITHUBEMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
         run: |
-          git config --global user.name "$GIT_USER"
-          git config --global user.email "$GIT_EMAIL"
+          git config --global user.name "$GITHUBUSERNAME"
+          git config --global user.email "$GITHUBEMAIL"
+          git config --global credential.helper store
+          echo "https://${GITHUBTOKEN}@github.com" > ~/.git-credentials
           npx hexo deploy
 
       # - name: Deploy
